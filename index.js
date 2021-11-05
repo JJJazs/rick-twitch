@@ -4,8 +4,8 @@ const tmi = require('tmi.js');
 const client = new tmi.Client({
     options: { debug: true },
     identity: {
-        username: 'JJJazs',
-        password: 'oauth'
+        username: 'george_pumpkinman',
+        password: ''
     },
     channels: [ 'JJJazs' ]
 });
@@ -15,8 +15,9 @@ const client = new tmi.Client({
 client.connect().catch(console.error);
 client.on('message', (channel, tags, message, self) => {
     if(self) return;
-    if(message.toLowerCase() === '!hello') {
-        client.say(channel, `@${tags.username}, heya!`);
+    if(message.toLowerCase() === '!clist') {
+        client.say(channel, `@${tags.username}, !clist | !roll :d6, d12, d20`);
+        
     }
 
     var words = message.toLowerCase().split(" ");
@@ -49,23 +50,31 @@ client.on('message', (channel, tags, message, self) => {
             client.say(channel, "@" + tags.username + " That Die Does Not Exist");
         }
     }
-
+    
 
     if(message.toLowerCase().includes("nigga")) {
-
         client.say(channel,"/ban " + "@" + tags.username);
-
-        console.log();
     }
 
     if(message.toLowerCase().includes("wanna become famous? buy followers")) {
-
         client.say(channel,"/ban " + "@" + tags.username);
-
-        console.log();
     }
 
+    if(message.toLowerCase().includes("ayo can i get some ice cream")){
+        let message = "*thud*";
+        let count = 0;
+        setTimeout(function(){
+            client.say(channel, "only a spoonful");
 
-
-
+            let s = setInterval(function() {
+                client.say(channel, message);
+                message = message + " *thud*";
+                count = count + 1;
+                if(count >= 3 ) {
+                    clearInterval(s);
+                    return;
+                }
+            }, 1000);
+        }, 2000);
+    }
 });
